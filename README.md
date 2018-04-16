@@ -13,6 +13,18 @@ Site Mosaique Fm. Rubrique Politique.
 
 `data.json`
 Tous les articles récents concernant la Tunisie. Obtenus via newsapi.
+* mots clefs `tunis`, `tunisie` 
+* période 2 derniers mois
+
+`liste_deputes.csv`
+Src : https://majles.marsad.tn/2014/fr/assemblee
+> À améliorer : texte dans la colonne rang pas un chiffre et garder uniquement la partie numériquede la colonne Nombre de voix
+
+`liste_deputes_2.csv`
+`liste_deputes.csv` enrichi.
+
+`liste_deputes_3.csv`
+`liste_deputes_2.csv` enrichi de l'âge et de l'année de naissance.
 
 ## Sites utilisés
 
