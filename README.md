@@ -2,13 +2,14 @@
 
 ## Introduction
 
+Ce dépôt rassemble les travaux de collaboration [dataforgoodfr](http://www.dataforgood.fr) - [cahiers de la liberté](http://www.cahiersdelaliberte.org) réalisés au printemps 2018.
 
 ## Data
 
-`hpm_legistunisia.csv`
+`hpm_legistunisia.csv`  
 Articles Huff. Post Maghreb, metadata + text. Obtenus par requête : Législatives + Tunisia.
 
-`MosaiqueFM_v0.csv`
+`MosaiqueFM_v0.csv`  
 Site Mosaique Fm. Rubrique Politique.
 
 `data.json`
@@ -16,10 +17,10 @@ Tous les articles récents concernant la Tunisie. Obtenus via newsapi.
 * mots clefs `tunis`, `tunisie` 
 * période 2 derniers mois
 
-`liste_deputes_3.csv`
+`liste_deputes_3.csv`  
 Src : https://majles.marsad.tn/2014/fr/assemblee
 
-## Sites utilisés
+## Sites cibles
 
 Portail open data cahiers de la liberté :
 https://www.data4tunisia.org et ses [moissonneurs](https://github.com/cahiersdelaliberte/data4tunisia/tree/e1472ed43842e1623f62dc1a73ce7f605d924531/udata/harvest/backends).
