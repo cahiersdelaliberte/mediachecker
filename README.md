@@ -2,6 +2,18 @@
 
 ## Introduction
 
+
+## Data
+
+`hpm_legistunisia.csv`
+Articles Huff. Post Maghreb, metadata + text. Obtenus par requête : Législatives + Tunisia.
+
+`MosaiqueFM_v0.csv`
+Site Mosaique Fm. Rubrique Politique.
+
+`data.json`
+Tous les articles récents concernant la Tunisie. Obtenus via newsapi.
+
 ## Sites utilisés
 
 Portail open data cahiers de la liberté :
@@ -36,3 +48,18 @@ https://newsapi.org/s/google-news-api
 
 Détection et extraction mondiale d’événements en temps réel (identification des groupes d'articles dans différentes langues rapportant d'un même événement + regroupement en 1) :
 http://eventregistry.org/
+
+Speech to text en python :
+https://www.alexkras.com/transcribing-audio-file-to-text-with-google-cloud-speech-api-and-python/
+
+A scrapper :
+https://www.shemsfm.net/fr/actualites/2
+
+Site du Ministère de l'Industrie :
+http://www.data4tunisia.org/fr/organizations/ministere-de-lindustrie-de-lenergie-et-des-mines/
+
+Site du Ministère de la Culture :
+http://www.data4tunisia.org/fr/organizations/ministere-de-la-culture/
+
+Elus de l'Assemblée des Représentants du Peuple :
+https://majles.marsad.tn/2014/fr/assemblee
