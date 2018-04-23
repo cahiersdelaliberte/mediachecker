@@ -9,10 +9,10 @@ Ce dépôt rassemble les travaux de collaboration [dataforgoodfr](http://www.dat
 `hpm_legistunisia.csv`  
 Articles Huff. Post Maghreb, metadata + text. Obtenus par requête : Législatives + Tunisia.
 
-`MosaiqueFM_v0.csv`  
+`mosaique_fm.py` > `MosaiqueFM_v0.csv`  
 Site Mosaique Fm. Rubrique Politique.
 
-`liste_deputes_3.csv`  
+`liste_deputes.py` > `liste_deputes_3.csv`  
 Src : https://majles.marsad.tn/2014/fr/assemblee
 
 `newsAPIdata4good.py`  
@@ -25,6 +25,10 @@ Et, dans sa version précédente, a produit `data.json` :
 * période 2 derniers mois
 Et la librairie employée :
 https://github.com/mattlisiv/newsapi-python
+
+La version suivante crée :
+`tunis-ar.json` : résultat arabe pour mot clef en français `tunis`.
+`تونس.json` :  résultat arabe pour mot clef en arabe `تونس`.
 
 
 ## Sites cibles
