@@ -16,9 +16,9 @@ Site Mosaique Fm. Rubrique Politique.
 Src : https://majles.marsad.tn/2014/fr/assemblee
 
 `newsAPIdata4good.py`  
-> Requiert un fichier `key` contenant l'identifiant individuel à fournir au `NewsApiClient`.
+> Requiert un fichier `key_newapi` contenant l'identifiant individuel à fournir au `NewsApiClient` (et un retour à la ligne pour éviter `apiKeyInvalid`).
 
-Récupère tous les articles récents concernant la Tunisie. Obtenus via newsapi.
+Récupère tous les articles récents concernant la Tunisie. Obtenus via `NewsAPI.org`.
 Il produit `tunis.json` : les dernières 100 publications contenant le mot `tunis`.  
 Et, dans sa version précédente, a produit `data.json` :
 * mots clefs `tunis`, `tunisie` 

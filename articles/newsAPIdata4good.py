@@ -11,7 +11,7 @@ from newsapi import NewsApiClient
 import csv, json, sys
 
 # Init: get your API-key on : https://newsapi.org/account
-key = open('key', 'r').read()
+key = open('./articles/key_newapi', 'r').read()
 newsapi = NewsApiClient(api_key=key[0:-1]) #API-KEY (do not release it) 
 
 keyword = 'tunis'
