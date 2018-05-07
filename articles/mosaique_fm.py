@@ -11,6 +11,14 @@ Scraping du side mosaique FM
 ############################
 
 
+from bs4 import BeautifulSoup
+import urllib.request
+import requests
+import lxml.html as lxml_html
+import numpy as np
+import pandas as pd
+
+
 #récupérer les urls des articles de la rubrique Politique
 artical_link=[]  
 url_info = "/fr/actualite-politique-tunisie/" 
@@ -18,7 +26,7 @@ url = "https://www.mosaiquefm.net/fr/actualites/actualite-politique-tunisie/4/"
 #pour cet exemple, on scrape uniquement les 4 premières pages de recherche
 nb_pages = 4
 for num_page in range(1, nb_pages + 1):
-    soup = BeautifulSoup(urllib.request.urlopen(url+str(num_page))) #on récupère le code source de chaque url (page de recherche)
+    soup = BeautifulSoup(urllib.request.urlopen(url+str(num_page)), "html.parser") #on récupère le code source de chaque url (page de recherche)
     for a in soup.find_all('a', href=True): 
         #on cherche dans toutes les balise <a> les "href" dont l'url commence par /r/
         if url_info in a['href']:
@@ -44,6 +52,6 @@ for link in artical_link:
 X=np.column_stack((artical_link,key_word,title,date_article,article)) 
 df=pd.DataFrame(X)
 df.columns = ['url','Section','Titre','Date','Article']
-X=np.column_stack((date_article,artical_link,key_word,title,article)) 
+X=np.column_stack((date_article,artical_link,key_word,title,article))
 
-
+print (X)
