@@ -52,6 +52,5 @@ for link in artical_link:
 X=np.column_stack((artical_link,key_word,title,date_article,article)) 
 df=pd.DataFrame(X)
 df.columns = ['url','Section','Titre','Date','Article']
-X=np.column_stack((date_article,artical_link,key_word,title,article))
 
-print (X)
+print (df)
