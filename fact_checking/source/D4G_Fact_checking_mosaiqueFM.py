@@ -261,4 +261,4 @@ data['nb_facts'].value_counts()
 # In[178]:
 
 
-data.to_csv('C:/Users/houeslat/Documents/DataForGood/data/mosaique_articals_with_facts_to_check.csv',index=False,encoding="utf8")
+data.to_csv('data/mosaique_articals_with_facts_to_check.csv',index=False,encoding="utf8")
