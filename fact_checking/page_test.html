@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1">
+
+        <style>
+            body {
+			    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+		    }
+            .highlight {
+                background-color: yellow;
+            }
+        </style>
+        
+    </head>
+	<body contextmenu="mymenu">
+        <div>
+            <h2>Test 1</h2>
+            <p id="content-1"><mark>Cat</mark> ipsum dolor sit amet, lick plastic bags x or slap kitten brother with paw.</p>
+            <button onclick="highlightTextInElement('content-1', 'kitten')">Click to highlight 'kitten'</button>
+        </div>
+        <div>
+            <h2>Test 2</h2>
+            <!-- Select and right click to highlight or click on the button-->
+            <p id="content-2">Pose purrfectly to show my beauty sleeps on my head.</p>
+            <button onclick="highlightSelection()">Select and click to highlight selection</button>
+        </div>
+        <div>
+            <h2>Test 3</h2>
+            <p id="content-3">Lick face hiss at owner and meow repeatedly scratch at fence purrrrrr eat muffins and poutine until owner comes back.</p>
+            <button onclick="highlightRangeOfElement('content-3')">Highlight full paragraph range</button>
+        </div>
+        <div>
+            <h2>Test 4</h2>
+            <p id="content-4">Roll on the floor purring your whiskers off for refuse to leave cardboard box.</p>
+            <button onclick="highlight(document.getElementById('content-4'), ['purring', 'whiskers'])">Highlight key words</button>
+        </div>
+        <script type="text/javascript" src="./surligne.js"></script>
+    </body>
+    
+</html>
