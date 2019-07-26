@@ -6,6 +6,8 @@ Ce dépôt rassemble les travaux de collaboration [dataforgoodfr](http://www.dat
 
 ## Data & Scripts
 
+__Répertoires `/articles` et `/indices`.__
+
 `hpm_legistunisia.csv`  
 Articles Huff. Post Maghreb, metadata + text. Obtenus par requête : Législatives + Tunisia.
 
@@ -16,7 +18,8 @@ Site Mosaique Fm. Rubrique Politique.
 Src : https://majles.marsad.tn/2014/fr/assemblee
 
 `newsAPIdata4good.py`  
-> Requiert un fichier `key_newapi` contenant l'identifiant individuel à fournir au `NewsApiClient` (et un retour à la ligne pour éviter `apiKeyInvalid`).
+> Requiert un fichier `key_newapi` contenant l'identifiant individuel à fournir au `NewsApiClient`  
+> (et un retour à la ligne pour éviter `apiKeyInvalid`).
 
 Récupère tous les articles récents concernant la Tunisie. Obtenus via `NewsAPI.org`.  
 Il produit `tunis.json` : les dernières 100 publications contenant le mot `tunis`.  
@@ -34,6 +37,8 @@ La version suivante crée :
 
 ## Fact checking
 
+__Répertoire `/fact_checking`.__
+
 `D4G_Fact_checking_mosaiqueFM.py` : script de vérification des articles mosaique fm  
 `D4G_Fact_checking_mosaiqueFM.html` : notebook vérifiant les articles mosaique fm
 
@@ -41,7 +46,19 @@ La version suivante crée :
 `page_test.html` : page appelant les fonctions de `surligne.js` pour les tester dans les navigateurs
 > ouvrir `page_test.html` dans un navigateur pour exécuter les tests
 
+## Clustering (ou production de nuage de mots)
 
+__Répertoire `/clustering`.__
+
+`clustering_news.py` : script de production de nuage de mots par article 
+    pour une liste d'articles issus de [News API](https://newsapi.org)
+
+`/inputs` : exemple d'entrées nécessaires au fonctionnement de `clustering_news.py`
+
+* `tunis.json` : liste d'articles au format `News API`
+* `stopwords-fre.txt` : liste de mots en français à ignorer à la production des nuages de mots
+
+`/data` : exemple de fichiers produits par `clustering_news.py` pour les `/inputs` fournis
 
 ## Sites cibles
 
