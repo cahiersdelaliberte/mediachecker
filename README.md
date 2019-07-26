@@ -34,8 +34,12 @@ La version suivante crée :
 
 ## Fact checking
 
-`D4G_Fact_checking_mosaiqueFM.py` : script de vérification des articles mosaique fm
-`D4G_Fact_checking_mosaiqueFM.html` : notebook vérifiant les articles mosaique fm 
+`D4G_Fact_checking_mosaiqueFM.py` : script de vérification des articles mosaique fm  
+`D4G_Fact_checking_mosaiqueFM.html` : notebook vérifiant les articles mosaique fm
+
+`surligne.js` : script de surlignage de mots de texte  
+`page_test.html` : page appelant les fonctions de `surligne.js` pour les tester dans les navigateurs
+> ouvrir `page_test.html` dans un navigateur pour exécuter les tests
 
 
 
