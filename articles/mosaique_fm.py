@@ -19,6 +19,9 @@ import numpy as np
 import pandas as pd
 
 
+OUTPUT_PATH = './mosaique.csv'
+
+
 #récupérer les urls des articles de la rubrique Politique
 artical_link=[]  
 url_info = "/fr/actualite-politique-tunisie/" 
@@ -54,4 +57,4 @@ df=pd.DataFrame(X)
 df.columns = ['url','Section','Titre','Date','Article']
 #print(df)
 
-df.to_csv('mosaique.csv', index=False)
+df.to_csv(OUTPUT_PATH, index=False)
