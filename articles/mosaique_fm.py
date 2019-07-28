@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
 """
 Created on Mon Apr 23 17:44:20 2018
 
 @author: houeslat
-Scraping du side mosaique FM
+Scraping du site mosaique FM
 """
 
 ############################
@@ -52,5 +52,6 @@ for link in artical_link:
 X=np.column_stack((artical_link,key_word,title,date_article,article)) 
 df=pd.DataFrame(X)
 df.columns = ['url','Section','Titre','Date','Article']
+#print(df)
 
-print (df)
+df.to_csv('mosaique.csv', index=False)
