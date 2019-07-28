@@ -18,13 +18,18 @@ from collections import Counter
 import csv, unicodedata
 
 
+STOPWORDSFR_PATH = './clustering/inputs/stopwords-fre.txt'
+OUTPUT_VOCABULARY = './out-clusteringVocabALL.txt'
+OUTPUT_ARTICLE_CLUSTERS = './out-articlesClusters.csv'
+
+
 def strip_accents(s):
      try : s = s.decode('utf-8') 
      except : s = str(s)
      return ''.join(c for c in unicodedata.normalize('NFD', s) 
                     if unicodedata.category(c) != 'Mn')  
      
-STOPWORDSFR = open('stopwords-fre.txt', 'r').readlines()
+STOPWORDSFR = open(STOPWORDSFR_PATH, 'r').readlines()
 tabSW = []
 for line in STOPWORDSFR :
     tabSW.append(line[0:-1]) 
@@ -114,7 +119,7 @@ def datacsv(outpath, nbclusters=9):
     
     #vocabulary
     feature_names = vect.get_feature_names()  
-    vocab = open("out-clusteringVocabALL.txt", "w")
+    vocab = open(OUTPUT_VOCABULARY, "w")
     for i, name in enumerate(feature_names):
         vocab.write(str(i) + '\t' + name + '\n')
     vocab.close() 
@@ -166,8 +171,9 @@ def analyse(nbclusters, algorithm, X, data) :
             url = deletion(deltab, '', data["url"][i])
             try : dicoSources[value] += " " + url
             except : dicoSources[value] = url
-            
-    with open("out-ArticlesClusters_"+str(nbclusters)+".csv", 'w') as csvfileWriter:
+
+    # "./out-ArticlesClusters_"+str(nbclusters)+".csv"        
+    with open(OUTPUT_ARTICLE_CLUSTERS, 'w') as csvfileWriter:
         w = csv.writer(csvfileWriter, lineterminator='\n')
         header = ['source', 'author', 'title', 'description', 'url', 'urlToImage', 'publishedAt']
 #        header = ["created_at", "body", "type", "cluster"]
@@ -178,7 +184,6 @@ def analyse(nbclusters, algorithm, X, data) :
                 
 #    for l in sorted(dicoContent) :        
 #        print(l, '---', dicoFrom[l], dicoContent[l])
-#                
 
     print (Counter(y_pred))
     
@@ -191,9 +196,9 @@ def analyse(nbclusters, algorithm, X, data) :
     generateWC(wc, "Content_"+str(nbclusters), dicoContent, nbclusters, y_pred)
     
     ##############################################################################
-    
-    
-inpath = 'tunis.json'
-outpath = 'out-datatunis.csv'
-newsjsontocsv(inpath, outpath)
-datacsv(outpath)
+
+# Execution example:    
+# inpath = 'tunis.json'
+# outpath = 'out-datatunis.csv'
+# newsjsontocsv(inpath, outpath)
+# datacsv(outpath)
