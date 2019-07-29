@@ -11,12 +11,9 @@ def fact_check(article,list_facts):
     """
     list_res = []
     text = unicodedata.normalize('NFD', article).encode('ascii', 'ignore')
-    #print(text)
     for elt in list_facts:
         mot_check = unicodedata.normalize('NFD', elt[1]).encode('ascii', 'ignore')
-        #print(mot_check)
         try:
-            #print(str(mot_check) in str(text), mot_check, text)
             res = re.search("(?i)"+mot_check.decode("utf-8"), text.decode("utf-8")).group()
             list_res.append(elt)
         except:

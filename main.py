@@ -42,10 +42,13 @@ def fact_checking():
         ('personnalité', 'Zied Lakhdar'), 
         ('élection', 'circonscription'),
         ("budget","dette")]
-    return fact_check(article, list_facts)
+    facts = fact_check(article, list_facts)
+    for theme, fact in facts:
+        article = article.replace(fact, f"\033[44;43m{fact}\033[m")
+    print(article)
 
 
 # newsapi()
 # newsapi_clustering()
 # mosaique_fm()
-print(fact_checking())
+fact_checking()
