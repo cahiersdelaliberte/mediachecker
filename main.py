@@ -2,6 +2,7 @@ from os.path import basename
 import pandas
 
 from articles.newsAPIdata4good import get_newsapi_articles, OUTPUT_FILENAME
+from articles.mosaique_fm import get_mosaique_articles
 from clustering.clustering_news import newsjsontocsv, datacsv
 from fact_checking.source.fact_checking import fact_check, fact_buddies
 
@@ -31,11 +32,9 @@ def newsapi_clustering(newsapi_csv_name):
 
 
 ## MosaïqueFM > mosaique.csv
-MOSAIQUE_OUTPUT_PATH = './mosaique.csv'
-
 def mosaique_fm():
     print("> MosaïqueFM : recherche des derniers articles...")
-    import articles.mosaique_fm
+    return get_mosaique_articles()
 
 
 def mosaique_clustering(mosaique_csv_path):
@@ -69,9 +68,9 @@ def fact_checking(csv_path):
 
 
 newsapi_csv_path = newsapi()
-newsapi_clustering(newsapi_csv_path)
+# newsapi_clustering(newsapi_csv_path)
 fact_checking(newsapi_csv_path)
 
-mosaique_fm()
-mosaique_clustering(MOSAIQUE_OUTPUT_PATH)
-fact_checking(MOSAIQUE_OUTPUT_PATH)
+mosaique_csv_path = mosaique_fm()
+mosaique_clustering(mosaique_csv_path)
+fact_checking(mosaique_csv_path)

@@ -63,5 +63,7 @@ def scrap_articles_information(articles_links):
     return df
 
 
-articles_dataframe = scrap_articles_information(scrap_political_articles_list())
-articles_dataframe.to_csv(OUTPUT_PATH, index=False)
+def get_mosaique_articles():
+    articles_dataframe = scrap_articles_information(scrap_political_articles_list())
+    articles_dataframe.to_csv(OUTPUT_PATH, index=False)
+    return OUTPUT_PATH
