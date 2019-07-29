@@ -43,15 +43,19 @@ def fact_checking():
 
     for i, row in mosaique_dataframe.iterrows():
         print("---", i)
-        print(row)
+        
         article = row.Article
         facts = fact_check(article, list_facts)
         
-        # highlight identified facts
-        for theme, fact in facts:
-            article = article.replace(fact, f"\033[44;43m{fact}\033[m")
-    
-        print(article)
+        if not facts:
+            print('✗', row.url, '\n')
+        else:
+            print('✓', row.url, '\n')
+            
+            # for one article, highlight identified facts
+            for theme, fact in facts:
+                article = article.replace(fact, f"\033[44;43m{fact}\033[m")
+            print(article, '\n')
 
 
 # newsapi()
