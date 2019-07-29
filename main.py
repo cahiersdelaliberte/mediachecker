@@ -3,7 +3,7 @@ import pandas
 
 from articles.newsAPIdata4good import get_newsapi_articles, OUTPUT_FILENAME
 from clustering.clustering_news import newsjsontocsv, datacsv
-from fact_checking.source.fact_checking import fact_check
+from fact_checking.source.fact_checking import fact_check, fact_buddies
 
 
 ## NewsAPI > tunis.json + tunis.csv
@@ -33,19 +33,25 @@ def mosaique_fm():
 
 MOSAIQUE_OUTPUT_PATH = './mosaique.csv'
 
+
 # fact checking
 def fact_checking():
     mosaique_dataframe = pandas.read_csv(MOSAIQUE_OUTPUT_PATH, encoding="utf8")
-
-    article = mosaique_dataframe[2:3].Article.values[0]
     list_facts = [
         ('personnalité', 'Zied Lakhdar'), 
-        ('élection', 'circonscription'),
-        ("budget","dette")]
-    facts = fact_check(article, list_facts)
-    for theme, fact in facts:
-        article = article.replace(fact, f"\033[44;43m{fact}\033[m")
-    print(article)
+        ('élection', 'circonscription')] + fact_buddies
+
+    for i, row in mosaique_dataframe.iterrows():
+        print("---", i)
+        print(row)
+        article = row.Article
+        facts = fact_check(article, list_facts)
+        
+        # highlight identified facts
+        for theme, fact in facts:
+            article = article.replace(fact, f"\033[44;43m{fact}\033[m")
+    
+        print(article)
 
 
 # newsapi()
