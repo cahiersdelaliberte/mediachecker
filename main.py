@@ -8,6 +8,7 @@ from fact_checking.source.fact_checking import fact_check, fact_buddies
 
 ## NewsAPI > tunis.json + tunis.csv
 def newsapi():
+    print("> NewsAPI : recherche des derniers articles...")
     get_newsapi_articles()
 
     newsapi_csv_name = basename(OUTPUT_FILENAME).split('.')[0] + ".csv"
@@ -19,32 +20,41 @@ def newsapi():
     # one line: newsapi_dataframe[csv_line_index_start:csv_line_index_end])
     # one column, 'content': newsapi_dataframe.content
     # one cell: newsapi_dataframe.content[csv_line_index_start:csv_line_index_end]
+    return newsapi_csv_name
 
 
 # NewsAPI clustering > out-clusteringVocabALL.txt + out-articlesClusters.csv
 #                    > out-wc_Title_X.png + out-wc_Content_X.png 
-def newsapi_clustering():
+def newsapi_clustering(newsapi_csv_name):
+    print("> NewsAPI : calcul des nuages de mots...")
     datacsv(newsapi_csv_name)
 
 
 ## MosaïqueFM > mosaique.csv
+MOSAIQUE_OUTPUT_PATH = './mosaique.csv'
+
 def mosaique_fm():
+    print("> MosaïqueFM : recherche des derniers articles...")
     import articles.mosaique_fm
 
-MOSAIQUE_OUTPUT_PATH = './mosaique.csv'
+
+def mosaique_clustering(mosaique_csv_path):
+    print("> MosaïqueFM : calcul des nuages de mots...")
+    datacsv(mosaique_csv_path)
 
 
 # fact checking
-def fact_checking():
-    mosaique_dataframe = pandas.read_csv(MOSAIQUE_OUTPUT_PATH, encoding="utf8")
+def fact_checking(csv_path):
+    print(f"> {csv_path} : recherche de faits à vérifier...")
+    csv_dataframe = pandas.read_csv(csv_path, encoding="utf8")
     list_facts = [
         ('personnalité', 'Zied Lakhdar'), 
         ('élection', 'circonscription')] + fact_buddies
 
-    for i, row in mosaique_dataframe.iterrows():
+    for i, row in csv_dataframe.iterrows():
         print("---", i)
         
-        article = row.Article
+        article = row.article
         facts = fact_check(article, list_facts)
         
         if not facts:
@@ -58,7 +68,10 @@ def fact_checking():
             print(article, '\n')
 
 
-# newsapi()
-# newsapi_clustering()
-# mosaique_fm()
-fact_checking()
+newsapi_csv_path = newsapi()
+newsapi_clustering(newsapi_csv_path)
+fact_checking(newsapi_csv_path)
+
+mosaique_fm()
+mosaique_clustering(MOSAIQUE_OUTPUT_PATH)
+fact_checking(MOSAIQUE_OUTPUT_PATH)
