@@ -5,6 +5,7 @@ Created on Tue May 22 19:41:25 2018
 @author: samah.ghalloussi
 """
 
+import os
 import json, csv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
@@ -19,8 +20,8 @@ import csv, unicodedata
 
 
 STOPWORDSFR_PATH = './clustering/inputs/stopwords-fre.txt'
-OUTPUT_VOCABULARY = './out-clusteringVocabALL.txt'
-OUTPUT_ARTICLE_CLUSTERS = './out-articlesClusters.csv'
+OUTPUT_VOCABULARY_PREFIX = 'out-clusteringVocabALL'
+OUTPUT_ARTICLE_CLUSTERS_PREFIX = 'out-articlesClusters'
 
 
 def strip_accents(s):
@@ -106,6 +107,7 @@ def newsjsontocsv(inpath, outpath):
 
 def datacsv(outpath, nbclusters=9):
     data = pd.read_csv(outpath)
+    source_name = os.path.basename(outpath).split('.')[0]
     # df = pd.DataFrame(columns = ['titre', 'date', 'url', 'article'])
     df = data[['titre', 'date', 'url', 'article']]
     
@@ -119,7 +121,7 @@ def datacsv(outpath, nbclusters=9):
     
     # vocabulary
     feature_names = vect.get_feature_names()  
-    vocab = open(OUTPUT_VOCABULARY, "w")
+    vocab = open(OUTPUT_VOCABULARY_PREFIX+'_'+source_name+'.txt', "w")
     for i, name in enumerate(feature_names):
         vocab.write(str(i) + '\t' + name + '\n')
     vocab.close() 
@@ -143,10 +145,10 @@ def datacsv(outpath, nbclusters=9):
     #  algorithm = cluster.DBSCAN(eps=0.3)
     #  algorithm = cluster.AgglomerativeClustering(n_clusters=nbclusters, affinity='euclidean')
     algorithm.fit(X)
-    analyse(nbclusters, algorithm, X, data)
+    analyse(source_name, nbclusters, algorithm, X, data)
      
 
-def analyse(nbclusters, algorithm, X, data) :
+def analyse(source_name, nbclusters, algorithm, X, data) :
 
     if hasattr(algorithm, 'labels_'):
         y_pred = algorithm.labels_.astype(np.int)
@@ -163,17 +165,13 @@ def analyse(nbclusters, algorithm, X, data) :
             try : dicoTitle[value] += " " + data["titre"][i]
             except : dicoTitle[value] = data["titre"][i]
             
-            # author = deletion(["b\'","\'"], '', data["author"][i])
-            # try : dicoAuthors[value] += " " + author
-            # except : dicoAuthors[value] = author
-             
             deltab = [".", "/", ":", "-"]
             url = deletion(deltab, '', data["url"][i])
             try : dicoSources[value] += " " + url
             except : dicoSources[value] = url
 
     # "./out-ArticlesClusters_"+str(nbclusters)+".csv"        
-    with open(OUTPUT_ARTICLE_CLUSTERS, 'w') as csvfileWriter:
+    with open(OUTPUT_ARTICLE_CLUSTERS_PREFIX+'_'+source_name+'.csv', 'w') as csvfileWriter:
         w = csv.writer(csvfileWriter, lineterminator='\n')
         ## header = ['source', 'author', 'title', 'description', 'url', 'urlToImage', 'publishedAt']
         # header = ["created_at", "body", "type", "cluster"]
@@ -193,8 +191,8 @@ def analyse(nbclusters, algorithm, X, data) :
     wc = WordCloud(mode="RGB", stopwords=tabSW, background_color=None, max_font_size=40, max_words=100, relative_scaling=0.5)
     # generateWC(wc, "Sources_"+str(nbclusters), dicoSources, nbclusters, y_pred)
     # generateWC(wc, "Authors_"+str(nbclusters), dicoAuthors, nbclusters, y_pred)
-    generateWC(wc, "Title_"+str(nbclusters), dicoTitle, nbclusters, y_pred)
-    generateWC(wc, "Content_"+str(nbclusters), dicoContent, nbclusters, y_pred)
+    generateWC(wc, "Title_"+str(nbclusters)+"_"+source_name, dicoTitle, nbclusters, y_pred)
+    generateWC(wc, "Content_"+str(nbclusters)+"_"+source_name, dicoContent, nbclusters, y_pred)
     
     ##############################################################################
 

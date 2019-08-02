@@ -4,7 +4,8 @@ import pandas
 from articles.newsAPIdata4good import get_newsapi_articles, OUTPUT_FILENAME
 from articles.mosaique_fm import get_mosaique_articles
 from clustering.clustering_news import newsjsontocsv, datacsv
-from fact_checking.source.fact_checking import fact_check, fact_buddies
+from fact_checking.source.fact_checking import fact_check
+from fact_checking.source.key_words import key_words_list
 
 
 ## NewsAPI > tunis.json + tunis.csv
@@ -46,15 +47,12 @@ def mosaique_clustering(mosaique_csv_path):
 def fact_checking(csv_path):
     print(f"> {csv_path} : recherche de faits à vérifier...")
     csv_dataframe = pandas.read_csv(csv_path, encoding="utf8")
-    list_facts = [
-        ('personnalité', 'Zied Lakhdar'), 
-        ('élection', 'circonscription')] + fact_buddies
 
     for i, row in csv_dataframe.iterrows():
         print("---", i)
         
         article = row.article
-        facts = fact_check(article, list_facts)
+        facts = fact_check(article, key_words_list)
         
         if not facts:
             print('✗', row.url, '\n')
@@ -68,7 +66,7 @@ def fact_checking(csv_path):
 
 
 newsapi_csv_path = newsapi()
-# newsapi_clustering(newsapi_csv_path)
+newsapi_clustering(newsapi_csv_path)
 fact_checking(newsapi_csv_path)
 
 mosaique_csv_path = mosaique_fm()
