@@ -9,9 +9,9 @@ Récupérer la liste des députés à partir du site Majles https://majles.marsa
 ###########################################################################
 ######################   Importer les librairies   ########################
 ###########################################################################
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')   
+# import sys
+# reload(sys)
+# sys.setdefaultencoding('utf-8')   
 import numpy as np
 import pandas as pd
 import re
@@ -68,14 +68,11 @@ metier_regex = r'(?<=Parcours professionnel).*?(?=Parcours politique)'
 regex_region = r'(?<=\,).*'
 
 
-
 name_list = []
 region = []
-nb_voix = []
-rang = []
 parti = []
-annee_naissance = []
 metier = []
+annee_naissance_calculee = []
 
 #récupérer l'url des fiches des députés à partir du site de l'assemblée nationale
 page_url = "https://majles.marsad.tn/2014/fr/assemblee"
@@ -87,37 +84,25 @@ for a in soup.find_all('a', href=True):
         dep_link.append("https://majles.marsad.tn"+a['href'])
 
 
-
 #récupérer les différentes informations relatives aux députés
+#exemple de fiche de député au 01/08/2019 :
+#<div class="card is-elu mb-1 shadow" data-nom="Olfa Jouini" 
+#    data-photo="/2014/uploads/images/olfa jouini.thumb50.png" 
+#    data-bloc="Mouvement Nidaa Tounes" data-groupe_id="Mouvement_Nidaa_Tounes" 
+#    data-liste="Union Patriotique Libre" data-circ="Tunis 1" 
+#    data-genre="Femmes" data-age="0" data-profession="" data-siege="76">
+#</div>
 for link in dep_link:
     page = requests.get(link) #ouvrir l'url 
     tree = lxml_html.fromstring(page.content)
-    name_list.append(tree.xpath('//div/h1[@id="elu-nom"]/text()'))
-    parti.append(tree.xpath('//div[@class="top-20"]/div/text()') [0])
-    region.append(re.findall( regex_region , tree.xpath('//div[@class="top-30"]/div/text()') [0])[0].strip())
-    nb_voix.append((re.findall(r'\d+', tree.xpath('//div[@class="top-30"]/div/text()')[-1].split(',')[0].strip())))
-    rang.append(tree.xpath('//div[@class="top-30"]/div/text()')[-1].split(',')[1].strip())
-    try:
-        annee_naissance.append(2017 - int(re.findall(r'\d+', tree.xpath('//div[@class="grey"]/span/text()')[-1])[0]))
-    except: 
-        annee_naissance.append(0)
-    try:
-        metier.append(re.findall( metier_regex ,get_text_html(link))[0].strip())
-    except: 
-        metier.append("")
+    name_list.append(tree.xpath('//div[@class="card is-elu mb-1 shadow"]/@data-nom'))
+    parti.append(tree.xpath('//div[@class="card is-elu mb-1 shadow"]/@data-liste'))
+    region.append(tree.xpath('//div[@class="card is-elu mb-1 shadow"]/@data-circ'))
+    metier.append(tree.xpath('//div[@class="card is-elu mb-1 shadow"]/@data-profession'))
+    annee_naissance_calculee.append(list(map(lambda age : (2019 - int(age)), tree.xpath('//div[@class="card is-elu mb-1 shadow"]/@data-age'))))
+    
 
-
-
-X=np.column_stack((name_list,parti,region,nb_voix,rang,annee_naissance,metier)) 
+X=np.column_stack((name_list[0],parti[0],region[0],annee_naissance_calculee[0],metier[0])) 
 df_dep=pd.DataFrame(X)
-df_dep.columns = ['Député','Parti polituque','Région','Nombre de voix','Rang dans la liste',"Année de naissance","Profession"]
-df_dep.to_cvs('C:/Users/houeslat/Documents/DataForGood/data/liste_deputes.csv',encoding='utf8',index=False)
-
-
-
-#récupérer le rang en chiffre des député     
-df_dep['Rang dans la liste'] = df_dep['Rang dans la liste'].apply(lambda x : get_rank(x))
-
-
-
-
+df_dep.columns = ['Député','Parti politique','Région', 'Année de naissance calculée', 'Profession']
+df_dep.to_csv('./liste_deputes.csv',encoding='utf8',index=False)
