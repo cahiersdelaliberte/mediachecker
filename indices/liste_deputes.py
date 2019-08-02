@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sun Apr 22 21:32:04 2018
 
@@ -9,9 +8,6 @@ Récupérer la liste des députés à partir du site Majles https://majles.marsa
 ###########################################################################
 ######################   Importer les librairies   ########################
 ###########################################################################
-# import sys
-# reload(sys)
-# sys.setdefaultencoding('utf-8')   
 import numpy as np
 import pandas as pd
 import re
