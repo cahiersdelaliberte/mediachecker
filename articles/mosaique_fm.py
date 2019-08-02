@@ -54,11 +54,8 @@ def scrap_articles_information(articles_links):
         title.append(tree.xpath('//div/h1[@class="title"]/text()')[0].strip())
 
     #Consolider les données scrapées dans un dataframe 
-    #X=np.column_stack((article_link,key_word,title,article_date,article)) 
     X=np.column_stack((title, article_date, articles_links, article))
     df=pd.DataFrame(X)
-    # df.columns = ['url','Section','Titre','Date','Article']
-    ## df.columns = ['Titre', 'Date', 'url', 'Article']
     df.columns = ['titre', 'date', 'url', 'article']
     return df
 
