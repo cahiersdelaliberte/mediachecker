@@ -6,9 +6,21 @@
 
 all: clean
 
-install: install-newsapi install-mosaique install-clusters
+install: install-marsad install-newsapi install-mosaique install-clusters
 	@echo "> Etes-vous bien en python 3.6+ ?"
 	python --version
+
+
+install-marsad:
+	@echo "> Installation du script de scrapping de la liste des députés..."
+	pip install beautifulsoup4
+	pip install lxml
+	pip install numpy
+	pip install pandas
+	pip install nltk
+
+marsad:
+	python indices/liste_deputes.py 
 
 
 install-newsapi:
