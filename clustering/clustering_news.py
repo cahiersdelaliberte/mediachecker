@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 """
 Created on Tue May 22 19:41:25 2018
 
 @author: samah.ghalloussi
 """
 
+import os
 import json, csv
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
@@ -18,13 +18,18 @@ from collections import Counter
 import csv, unicodedata
 
 
+STOPWORDSFR_PATH = './clustering/inputs/stopwords-fre.txt'
+OUTPUT_VOCABULARY_PREFIX = 'out-clusteringVocabALL'
+OUTPUT_ARTICLE_CLUSTERS_PREFIX = 'out-articlesClusters'
+
+
 def strip_accents(s):
      try : s = s.decode('utf-8') 
      except : s = str(s)
      return ''.join(c for c in unicodedata.normalize('NFD', s) 
                     if unicodedata.category(c) != 'Mn')  
      
-STOPWORDSFR = open('stopwords-fre.txt', 'r').readlines()
+STOPWORDSFR = open(STOPWORDSFR_PATH, 'r').readlines()
 tabSW = []
 for line in STOPWORDSFR :
     tabSW.append(line[0:-1]) 
@@ -67,81 +72,82 @@ def generateWC(wc, name, dico, nbclusters, y_pred):
          plot_num += 1
         
          if plot_num > nbclusters :
-             break
+            break
     
     plt.savefig('out-wc_' + name + '.png') #, bbox_inches='tight', dpi = 900, transparent = True)
-#    plt.show()
+    # plt.show()
     plt.close()
-    
+
+
 def newsjsontocsv(inpath, outpath):
     header = []
     with open(inpath, 'r') as data_file:
         jsonarticles = json.load(data_file)
         with open(outpath, 'w') as csvfile:
             w = csv.writer(csvfile, lineterminator='\n')
-#            w.writerow(rawIndex)
-            for article in jsonarticles['articles'] :
-                for elem in article :
-                    header.append(elem)
-                break
+            # w.writerow(rawIndex)
+            header = ['titre', 'date', 'url', 'article']    
             w.writerow(header)   
             for article in jsonarticles['articles'] :
                 try :
                     rawIndex = []
-                    article['source'] = article['source']['name']
-                    article['description'] = article['description'].replace("[Tunis Afrique Presse]", '')
-                    for elem in article :
-                        rawIndex.append(strip_accents(article[elem]).encode('utf-8'))
+                    # article['source'] = article['source']['name']
+                    # article['description'] = article['description'].replace("[Tunis Afrique Presse]", '')
+                    rawIndex.append(strip_accents(article['title']).encode('utf-8'))
+                    rawIndex.append(strip_accents(article['publishedAt']).encode('utf-8'))
+                    rawIndex.append(strip_accents(article['url']).encode('utf-8'))
+                    rawIndex.append(strip_accents(article['content']).encode('utf-8'))
                             
                     w.writerow(rawIndex)
                 except :
                     pass
-#                    print(article['title'])
+                    # print(article['title'])
 
 
 def datacsv(outpath, nbclusters=9):
     data = pd.read_csv(outpath)
-    df = pd.DataFrame(columns = data.columns)
-    df = data[['source', 'author', 'title', 'description', 'url', 'urlToImage', 'publishedAt']]
+    source_name = os.path.basename(outpath).split('.')[0]
+    # df = pd.DataFrame(columns = ['titre', 'date', 'url', 'article'])
+    df = data[['titre', 'date', 'url', 'article']]
     
     vect = TfidfVectorizer(stop_words=tabSW, max_df=0.90, min_df=1)#, ngram_range=(1, 2))
-#        vect = TfidfVectorizer(tokenizer=tokenize, stop_words='french', max_df=0.50, min_df=2)
+    # vect = TfidfVectorizer(tokenizer=tokenize, stop_words='french', max_df=0.50, min_df=2)
 
-#    X = vect.fit_transform(data["title"].astype('U'))
-#    X = vect.fit_transform(data["description"].astype('U'))
-    X = vect.fit_transform(data["description"] + ' ' + data["title"])
-#    X = StandardScaler(with_mean=False).fit_transform(X)
+    X = vect.fit_transform(data["titre"].astype('U'))
+    #  X = vect.fit_transform(data["description"].astype('U'))
+    ## X = vect.fit_transform(data["description"] + ' ' + data["title"])
+    #  X = StandardScaler(with_mean=False).fit_transform(X)
     
-    #vocabulary
+    # vocabulary
     feature_names = vect.get_feature_names()  
-    vocab = open("out-clusteringVocabALL.txt", "w")
+    vocab = open(OUTPUT_VOCABULARY_PREFIX+'_'+source_name+'.txt', "w")
     for i, name in enumerate(feature_names):
         vocab.write(str(i) + '\t' + name + '\n')
     vocab.close() 
     
-#    for i, elem in enumerate(X):
-#        print ('\n', i, data["title"][i])
-#        for wordline in str(X[i]).split('\n') :
-#             index = wordline.split('\t')[0].split()[-1].replace(')','')
-#             print(feature_names[int(index)], '-', wordline.split('\t')[1])
+    #    for i, elem in enumerate(X):
+    #        print ('\n', i, data["title"][i])
+    #        for wordline in str(X[i]).split('\n') :
+    #             index = wordline.split('\t')[0].split()[-1].replace(')','')
+    #             print(feature_names[int(index)], '-', wordline.split('\t')[1])
     
     X = X.toarray()
     n_samples, n_features = X.shape
-    print ("n_samples:", n_samples, "n_features:", n_features)
+    print("n_samples:", n_samples, "n_features:", n_features)
     
     algorithm = cluster.SpectralClustering(n_clusters=nbclusters,
                                       eigen_solver='arpack',
                                       affinity="nearest_neighbors",
                                       assign_labels='discretize',
                                       random_state=73)
-#    algorithm = cluster.DBSCAN(eps=.2)
-#    algorithm = cluster.DBSCAN(eps=0.3)
-#    algorithm = cluster.AgglomerativeClustering(n_clusters=nbclusters, affinity='euclidean')
+    #  algorithm = cluster.DBSCAN(eps=.2)
+    #  algorithm = cluster.DBSCAN(eps=0.3)
+    #  algorithm = cluster.AgglomerativeClustering(n_clusters=nbclusters, affinity='euclidean')
     algorithm.fit(X)
-    analyse(nbclusters, algorithm, X, data)
+    analyse(source_name, nbclusters, algorithm, X, data)
      
 
-def analyse(nbclusters, algorithm, X, data) :
+def analyse(source_name, nbclusters, algorithm, X, data) :
 
     if hasattr(algorithm, 'labels_'):
         y_pred = algorithm.labels_.astype(np.int)
@@ -151,49 +157,46 @@ def analyse(nbclusters, algorithm, X, data) :
     dicoContent, dicoTitle = {}, {}
     dicoSources, dicoAuthors = {}, {}
     for i, value in enumerate(y_pred):
-#            print (i, value, data["created_at"][i], Counter(y_pred)[value])            
-            try : dicoContent[value] += " " + data["description"][i]
-            except : dicoContent[value] = data["description"][i]
+            # print (i, value, data["created_at"][i], Counter(y_pred)[value])            
+            try : dicoContent[value] += " " + data["article"][i]
+            except : dicoContent[value] = data["article"][i]
                 
-            try : dicoTitle[value] += " " + data["title"][i]
-            except : dicoTitle[value] = data["title"][i]
+            try : dicoTitle[value] += " " + data["titre"][i]
+            except : dicoTitle[value] = data["titre"][i]
             
-            author = deletion(["b\'","\'"], '', data["author"][i])
-            try : dicoAuthors[value] += " " + author
-            except : dicoAuthors[value] = author
-             
             deltab = [".", "/", ":", "-"]
             url = deletion(deltab, '', data["url"][i])
             try : dicoSources[value] += " " + url
             except : dicoSources[value] = url
-            
-    with open("out-ArticlesClusters_"+str(nbclusters)+".csv", 'w') as csvfileWriter:
+
+    # "./out-ArticlesClusters_"+str(nbclusters)+".csv"        
+    with open(OUTPUT_ARTICLE_CLUSTERS_PREFIX+'_'+source_name+'.csv', 'w') as csvfileWriter:
         w = csv.writer(csvfileWriter, lineterminator='\n')
-        header = ['source', 'author', 'title', 'description', 'url', 'urlToImage', 'publishedAt']
-#        header = ["created_at", "body", "type", "cluster"]
+        ## header = ['source', 'author', 'title', 'description', 'url', 'urlToImage', 'publishedAt']
+        # header = ["created_at", "body", "type", "cluster"]
+        header = ['titre', 'date', 'url', 'article']
         w.writerow(header)
         for i, value in enumerate(y_pred):
-            raw = [value, data["source"][i], data["title"][i], data["description"][i], data["url"][i], data["publishedAt"][i]]
+            raw = [value, data["titre"][i], data["date"][i], data["url"][i]]
             w.writerow(raw)
                 
-#    for l in sorted(dicoContent) :        
-#        print(l, '---', dicoFrom[l], dicoContent[l])
-#                
+    #    for l in sorted(dicoContent) :        
+    #        print(l, '---', dicoFrom[l], dicoContent[l])
 
     print (Counter(y_pred))
     
     #################################
 
     wc = WordCloud(mode="RGB", stopwords=tabSW, background_color=None, max_font_size=40, max_words=100, relative_scaling=0.5)
-#    generateWC(wc, "Sources_"+str(nbclusters), dicoSources, nbclusters, y_pred)
-#    generateWC(wc, "Authors_"+str(nbclusters), dicoAuthors, nbclusters, y_pred)
-    generateWC(wc, "Title_"+str(nbclusters), dicoTitle, nbclusters, y_pred)
-    generateWC(wc, "Content_"+str(nbclusters), dicoContent, nbclusters, y_pred)
+    # generateWC(wc, "Sources_"+str(nbclusters), dicoSources, nbclusters, y_pred)
+    # generateWC(wc, "Authors_"+str(nbclusters), dicoAuthors, nbclusters, y_pred)
+    generateWC(wc, "Title_"+str(nbclusters)+"_"+source_name, dicoTitle, nbclusters, y_pred)
+    generateWC(wc, "Content_"+str(nbclusters)+"_"+source_name, dicoContent, nbclusters, y_pred)
     
     ##############################################################################
-    
-    
-inpath = 'tunis.json'
-outpath = 'out-datatunis.csv'
-newsjsontocsv(inpath, outpath)
-datacsv(outpath)
+
+# Execution example:    
+# inpath = 'tunis.json'
+# outpath = 'out-datatunis.csv'
+# newsjsontocsv(inpath, outpath)
+# datacsv(outpath)
