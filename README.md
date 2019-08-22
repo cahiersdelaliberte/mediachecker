@@ -4,37 +4,90 @@
 
 Ce dépôt rassemble les travaux de collaboration [dataforgoodfr](http://www.dataforgood.fr) - [cahiers de la liberté](http://www.cahiersdelaliberte.org) réalisés au printemps 2018.
 
-## Data & Scripts
+## Installation
 
-__Répertoires `/articles` et `/indices`.__
+Ce dépôt requiert Python 3.7.
+Pour tout installer, exécuter :
 
+```sh
+make install
+```
 
-`liste_deputes.py` > `liste_deputes_3.csv`  
+Noter que chaque script peut être installé séparément.  
+Voir le fichier `Makefile` pour en savoir plus.
+
+## Exécution
+
+> Requiert un fichier `key_newapi` contenant l'identifiant individuel à fournir pour la récupération des articles [NewsAPI.org](NewsAPI.org)
+
+Afin d'exécuter tous les scripts, appeler :
+
+```sh
+python main.py
+```
+> Ignore néanmoins les recherches de représentation du fact checking.
+
+## Contenu
+
+### Moissonnage de données de référence
+
+__Répertoire `/indices`.__
+
+#### Liste des députés de l'Assemblée des Représentants du Peuple
+
+`liste_deputes.py` > `liste_deputes.csv`  
 Src : https://majles.marsad.tn/2014/fr/assemblee
 
-`newsAPIdata4good.py`  
+Les données générées sont mémorisées dans :
+* `data/liste_deputes.csv` (moissonnée en 08/2019)
+  * Cette liste est retranscrite pour le fact checking (cf.`fact_checking/source/key_words.py`).
+* `data/liste_deputes_2018.csv` (moissonnée en 2018 pour dataforgoodfr)
+
+
+### Moissonnage d'articles
+
+__Répertoire `/articles`__
+
+#### Articles MosaïqueFM
+
+`mosaique_fm.py` > `mosaique.csv`
+
+Récupère les derniers articles de la [rubrique Politique](https://www.mosaiquefm.net/fr/actualites/actualite-politique-tunisie/4/).
+
+#### Articles divers via NewsAPI
+
+`newsAPIdata4good.py` > `tunis.json` (pour une recherche du mot clef `tunis`)
+
+Récupère tous les articles récents concernant la Tunisie via [NewsAPI.org](NewsAPI.org).  
+Sélectionne les articles par mots clefs pouvant être en français ou en arabe.
+
 > Requiert un fichier `key_newapi` contenant l'identifiant individuel à fournir au `NewsApiClient`  
 > (et un retour à la ligne pour éviter `apiKeyInvalid`).
 
-Récupère tous les articles récents concernant la Tunisie. Obtenus via `NewsAPI.org`.  
-Les mots clefs obtenus peuvent typiquement être en français ou en arabe.
+Endpoint principal requêté : [/v2/everything](https://newsapi.org/docs/endpoints/everything)
 
-Et la librairie employée :
-https://github.com/mattlisiv/newsapi-python
-
-
-## Fact checking
+### Fact checking
 
 __Répertoire `/fact_checking`.__
+
+`fact_checking.py`
+
+Pour un article donné, `fact_checking.py` recherche la liste des mots clefs présents parmi la liste définie dans `key_words.py`.
+
+#### Recherches sur la représentation des résultats
+
+##### Notebook HTML
 
 `D4G_Fact_checking_mosaiqueFM.py` : script de vérification des articles mosaique fm  
 `D4G_Fact_checking_mosaiqueFM.html` : notebook vérifiant les articles mosaique fm
 
-`surligne.js` : script de surlignage de mots de texte  
-`page_test.html` : page appelant les fonctions de `surligne.js` pour les tester dans les navigateurs
+##### Test de surlignage JS/HTML
+
+`utils/surligne.js` : script de surlignage de mots de texte  
+`utils/page_test.html` : page appelant les fonctions de `surligne.js` pour les tester dans les navigateurs
 > ouvrir `page_test.html` dans un navigateur pour exécuter les tests
 
-## Clustering (ou production de nuage de mots)
+### Clustering (ou production de nuage de mots)
 
 __Répertoire `/clustering`.__
 
