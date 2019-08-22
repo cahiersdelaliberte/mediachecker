@@ -41,12 +41,7 @@ __Répertoire `/clustering`.__
 `clustering_news.py` : script de production de nuage de mots par article 
     pour une liste d'articles issus de [News API](https://newsapi.org)
 
-`/inputs` : exemple d'entrées nécessaires au fonctionnement de `clustering_news.py`
-
-* `tunis.json` : liste d'articles au format `News API`
-* `stopwords-fre.txt` : liste de mots en français à ignorer à la production des nuages de mots
-
-`/data` : exemple de fichiers produits par `clustering_news.py` pour les `/inputs` fournis
+`/inputs/stopwords-fre.txt` : liste de mots en français à ignorer à la production des nuages de mots
 
 ## Sites cibles
 
