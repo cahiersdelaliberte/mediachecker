@@ -52,8 +52,22 @@ install-clusters:
 clusters:
 	python clustering/clustering_news.py
 
-run:
+run: clean
 	python main.py
 
 clean:
 	find . -name '*.pyc' -exec rm \{\} \;
+	@echo "> Suppression des éventuels fichiers générés..."
+	rm -f mosaique.csv
+	rm -f out-articlesClusters.csv
+	rm -f out-articlesClusters_mosaique.csv
+	rm -f out-articlesClusters_tunis.csv
+	rm -f out-clusteringVocabALL.txt
+	rm -f out-clusteringVocabALL_mosaique.txt
+	rm -f out-clusteringVocabALL_tunis.txt
+	rm -f out-wc_Content_9_mosaique.png
+	rm -f out-wc_Content_9_tunis.png
+	rm -f out-wc_Title_9_mosaique.png
+	rm -f out-wc_Title_9_tunis.png
+	rm -f tunis.csv
+	rm -f tunis.json
