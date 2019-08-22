@@ -110,11 +110,11 @@ http://www.data4tunisia.org/fr/organizations/ministere-de-la-culture/
 Elus de l'Assemblée des Représentants du Peuple :  
 https://majles.marsad.tn/2014/fr/assemblee
 
-Huffpost Tunisie :
+Huffpost Tunisie :  
 https://www.huffpostmaghreb.com/tunisie/
 
-Kapitalis :
+Kapitalis :  
 http://kapitalis.com/tunisie/
 
-Businessnews.tn :
+Businessnews.tn :  
 https://www.businessnews.com.tn/
