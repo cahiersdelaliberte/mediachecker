@@ -19,25 +19,30 @@ def fact_check(article,list_facts):
         except:
             pass
     try:
+        # Dinar
         res1 = re.search('(\d+)\D*dinar' ,text.decode("utf-8")).group()
         list_res.append(("financement",res1))
     except:
-        pass
+      pass
     try:
+        # Euro
         res1 = re.search('(\d+)\D*euro' ,text.decode("utf-8")).group()
         list_res.append(("financement",res1))
     except:
-        pass
+      pass
     try:
+        # Dollar
         res1 = re.search('(\d+)\D*dollar' ,text.decode("utf-8")).group()
         list_res.append(("financement",res1))
     except:
-        pass
+      pass
     try:
+        # voix
         res1 = re.search('(\d+)\D*voix' ,text.decode("utf-8")).group()
         list_res.append(("élection",res1))
     except:
-        pass
+      pass
+
 
     if list_res:
         return list_res

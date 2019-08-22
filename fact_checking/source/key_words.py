@@ -1,3 +1,5 @@
+# Listes des mots à rechercher dans les articles.
+# Elles sont composées de couples ("thème", "mot clef").
 
 # éléments figurant dans le fichier
 # https://docs.google.com/spreadsheets/d/12ElwEojNy9w7mYtwlERt_YcHwtcfAja3EhSrYWVu_TI/edit#gid=0
@@ -287,6 +289,7 @@ deputes = [
 
 key_words_list = [
     ('élection', 'circonscription'),
+    ('élection', 'liste'),
     ('ISIE 2019', 'Nabil Baffoun'),
     ('présidence', 'Mohamed Ennaceur')
     ] + spreadsheet_words + deputes
