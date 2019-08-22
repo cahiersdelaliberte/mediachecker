@@ -8,11 +8,6 @@ Ce dépôt rassemble les travaux de collaboration [dataforgoodfr](http://www.dat
 
 __Répertoires `/articles` et `/indices`.__
 
-`hpm_legistunisia.csv`  
-Articles Huff. Post Maghreb, metadata + text. Obtenus par requête : Législatives + Tunisia.
-
-`mosaique_fm.py` > `MosaiqueFM_v0.csv`  
-Site Mosaique Fm. Rubrique Politique.
 
 `liste_deputes.py` > `liste_deputes_3.csv`  
 Src : https://majles.marsad.tn/2014/fr/assemblee
@@ -22,17 +17,10 @@ Src : https://majles.marsad.tn/2014/fr/assemblee
 > (et un retour à la ligne pour éviter `apiKeyInvalid`).
 
 Récupère tous les articles récents concernant la Tunisie. Obtenus via `NewsAPI.org`.  
-Il produit `tunis.json` : les dernières 100 publications contenant le mot `tunis`.  
-Et, dans sa version précédente, a produit `data.json` :
-* mots clefs `tunis`, `tunisie` 
-* période 2 derniers mois
+Les mots clefs obtenus peuvent typiquement être en français ou en arabe.
+
 Et la librairie employée :
 https://github.com/mattlisiv/newsapi-python
-
-La version suivante crée :
-`tunis-ar.json` : résultat arabe pour mot clef en français `tunis`.
-`تونس.json` :  résultat arabe pour mot clef en arabe `تونس` (mais soucis d'encodage)
-`arabicresultsتونس.json` : résultat arabe pour mot clef en arabe `تونس` (sans problématique d'encodage grâce au passage à python 3 ?) ; ce JSON n'est pas aimé par les éditeurs mais est bien formé.
 
 
 ## Fact checking
