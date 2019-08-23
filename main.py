@@ -38,6 +38,11 @@ def mosaique_fm():
     return get_mosaique_articles()
 
 
+# > out-wc_Title_9_mosaique.png
+# > out-wc_Content_9_mosaique.png
+# Et fichiers auxiliaires :
+# > out-articlesClusters_mosaique.csv
+# > out-clusteringVocabALL_mosaique.txt
 def mosaique_clustering(mosaique_csv_path):
     print("> MosaïqueFM : calcul des nuages de mots...")
     datacsv(mosaique_csv_path)

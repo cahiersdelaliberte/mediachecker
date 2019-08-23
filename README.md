@@ -4,61 +4,97 @@
 
 Ce dépôt rassemble les travaux de collaboration [dataforgoodfr](http://www.dataforgood.fr) - [cahiers de la liberté](http://www.cahiersdelaliberte.org) réalisés au printemps 2018.
 
-## Data & Scripts
+## Installation
 
-__Répertoires `/articles` et `/indices`.__
+Ce dépôt requiert Python 3.7.
+Pour tout installer, exécuter :
 
-`hpm_legistunisia.csv`  
-Articles Huff. Post Maghreb, metadata + text. Obtenus par requête : Législatives + Tunisia.
+```sh
+make install
+```
 
-`mosaique_fm.py` > `MosaiqueFM_v0.csv`  
-Site Mosaique Fm. Rubrique Politique.
+Noter que chaque script peut être installé séparément.  
+Voir le fichier `Makefile` pour en savoir plus.
 
-`liste_deputes.py` > `liste_deputes_3.csv`  
+## Exécution
+
+> Requiert un fichier `key_newapi` contenant l'identifiant individuel à fournir pour la récupération des articles [NewsAPI.org](NewsAPI.org)
+
+Afin d'exécuter tous les scripts, appeler :
+
+```sh
+python main.py
+```
+> Ignore néanmoins les recherches de représentation du fact checking.
+
+## Contenu
+
+### Moissonnage de données de référence
+
+__Répertoire `/indices`.__
+
+#### Liste des députés de l'Assemblée des Représentants du Peuple
+
+`liste_deputes.py` > `liste_deputes.csv`  
 Src : https://majles.marsad.tn/2014/fr/assemblee
 
-`newsAPIdata4good.py`  
+Les données générées sont mémorisées dans :
+* `data/liste_deputes.csv` (moissonnée en 08/2019)
+  * Cette liste est retranscrite pour le fact checking (cf.`fact_checking/source/key_words.py`).
+* `data/liste_deputes_2018.csv` (moissonnée en 2018 pour dataforgoodfr)
+
+
+### Moissonnage d'articles
+
+__Répertoire `/articles`__
+
+#### Articles MosaïqueFM
+
+`mosaique_fm.py` > `mosaique.csv`
+
+Récupère les derniers articles de la [rubrique Politique](https://www.mosaiquefm.net/fr/actualites/actualite-politique-tunisie/4/).
+
+#### Articles divers via NewsAPI
+
+`newsAPIdata4good.py` > `tunis.json` (pour une recherche du mot clef `tunis`)
+
+Récupère tous les articles récents concernant la Tunisie via [NewsAPI.org](NewsAPI.org).  
+Sélectionne les articles par mots clefs pouvant être en français ou en arabe.
+
 > Requiert un fichier `key_newapi` contenant l'identifiant individuel à fournir au `NewsApiClient`  
 > (et un retour à la ligne pour éviter `apiKeyInvalid`).
 
-Récupère tous les articles récents concernant la Tunisie. Obtenus via `NewsAPI.org`.  
-Il produit `tunis.json` : les dernières 100 publications contenant le mot `tunis`.  
-Et, dans sa version précédente, a produit `data.json` :
-* mots clefs `tunis`, `tunisie` 
-* période 2 derniers mois
-Et la librairie employée :
-https://github.com/mattlisiv/newsapi-python
+Endpoint principal requêté : [/v2/everything](https://newsapi.org/docs/endpoints/everything)
 
-La version suivante crée :
-`tunis-ar.json` : résultat arabe pour mot clef en français `tunis`.
-`تونس.json` :  résultat arabe pour mot clef en arabe `تونس` (mais soucis d'encodage)
-`arabicresultsتونس.json` : résultat arabe pour mot clef en arabe `تونس` (sans problématique d'encodage grâce au passage à python 3 ?) ; ce JSON n'est pas aimé par les éditeurs mais est bien formé.
-
-
-## Fact checking
+### Fact checking
 
 __Répertoire `/fact_checking`.__
+
+`fact_checking.py`
+
+Pour un article donné, `fact_checking.py` recherche la liste des mots clefs présents parmi la liste définie dans `key_words.py`.
+
+#### Recherches sur la représentation des résultats
+
+##### Notebook HTML
 
 `D4G_Fact_checking_mosaiqueFM.py` : script de vérification des articles mosaique fm  
 `D4G_Fact_checking_mosaiqueFM.html` : notebook vérifiant les articles mosaique fm
 
-`surligne.js` : script de surlignage de mots de texte  
-`page_test.html` : page appelant les fonctions de `surligne.js` pour les tester dans les navigateurs
+##### Test de surlignage JS/HTML
+
+`utils/surligne.js` : script de surlignage de mots de texte  
+`utils/page_test.html` : page appelant les fonctions de `surligne.js` pour les tester dans les navigateurs
 > ouvrir `page_test.html` dans un navigateur pour exécuter les tests
 
-## Clustering (ou production de nuage de mots)
+### Clustering (ou production de nuage de mots)
 
 __Répertoire `/clustering`.__
 
 `clustering_news.py` : script de production de nuage de mots par article 
     pour une liste d'articles issus de [News API](https://newsapi.org)
 
-`/inputs` : exemple d'entrées nécessaires au fonctionnement de `clustering_news.py`
-
-* `tunis.json` : liste d'articles au format `News API`
-* `stopwords-fre.txt` : liste de mots en français à ignorer à la production des nuages de mots
-
-`/data` : exemple de fichiers produits par `clustering_news.py` pour les `/inputs` fournis
+`/inputs/stopwords-fre.txt` : liste de mots en français à ignorer à la production des nuages de mots
 
 ## Sites cibles
 

@@ -19,7 +19,13 @@ OUTPUT_ARTICLES_NUMBER = 10
 
 
 def get_newsapi_articles():
-    key = open(NEWS_API_KEY_PATH, 'r').read()
+    try:
+        key = open(NEWS_API_KEY_PATH, 'r').read()
+    except FileNotFoundError:
+      print("Votre clef personnelle de connexion à News API n'a pas été trouvée.  \
+            Veuillez la récupérer sur 'https://newsapi.org/register'  \
+            et l'ajouter à './articles/key_newsapi'.")
+
     newsapi = NewsApiClient(api_key=key[0:-1]) # API-KEY (do not release it) 
 
     data = newsapi.get_everything(q=SEARCH_KEYWORD, language=SEARCH_LANGUAGE, page_size=OUTPUT_ARTICLES_NUMBER)

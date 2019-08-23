@@ -4,7 +4,7 @@
 # Initialisation d'un environnement virtuel toto en python 3.6 : 
 # pew new toto --python=python3.6
 
-all: clean
+all: clean run
 
 install: install-marsad install-newsapi install-mosaique install-clusters
 	@echo "> Etes-vous bien en python 3.6+ ?"
@@ -52,6 +52,22 @@ install-clusters:
 clusters:
 	python clustering/clustering_news.py
 
+run: clean
+	python main.py
 
 clean:
 	find . -name '*.pyc' -exec rm \{\} \;
+	@echo "> Suppression des éventuels fichiers générés..."
+	rm -f mosaique.csv
+	rm -f out-articlesClusters.csv
+	rm -f out-articlesClusters_mosaique.csv
+	rm -f out-articlesClusters_tunis.csv
+	rm -f out-clusteringVocabALL.txt
+	rm -f out-clusteringVocabALL_mosaique.txt
+	rm -f out-clusteringVocabALL_tunis.txt
+	rm -f out-wc_Content_9_mosaique.png
+	rm -f out-wc_Content_9_tunis.png
+	rm -f out-wc_Title_9_mosaique.png
+	rm -f out-wc_Title_9_tunis.png
+	rm -f tunis.csv
+	rm -f tunis.json
