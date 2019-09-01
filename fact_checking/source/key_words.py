@@ -287,9 +287,38 @@ deputes = [
     ("ARP 2014", "Mahbouba Ben Dhifallah")
 ]
 
+candidats_presidentielles_2019 = [
+    ('présidentielles 2019', 'Mohamed Abbou'),
+    ('présidentielles 2019', 'Said Aidi'), ('présidentielles 2019', 'Saïd Aydi'),
+    ('présidentielles 2019', 'Hatem Boulabiar'),
+    ('présidentielles 2019', 'Abid Briki'),
+    ('présidentielles 2019', 'Youssef Chahed'),
+    ('présidentielles 2019', 'Salma Elloumi'), ('présidentielles 2019', 'Selma Elloumi'),
+    ('présidentielles 2019', 'Elyes Fakhfakh'), ('présidentielles 2019', 'Elyès Fakhfakh'),
+    ('présidentielles 2019', 'Hachmi Hamdi'), ('présidentielles 2019', 'Hechmi Hamdi'),
+    ('présidentielles 2019', 'Hamma Hammami'),
+    ('présidentielles 2019', 'Neji Jalloul'),
+    ('présidentielles 2019', 'Hammadi Jbeli'), ('présidentielles 2019', 'Hamadi Jebali'),
+    ('présidentielles 2019', 'Mahdi Jomaa'), ('présidentielles 2019', 'Mehdi Jomaâ'),
+    ('présidentielles 2019', 'Nabil Karoui'),
+    ('présidentielles 2019', 'Seifeddine Makhlouf'),
+    ('présidentielles 2019', 'Omar Mansour'),
+    ('présidentielles 2019', 'Mohsen Marzouk'),
+    ('présidentielles 2019', 'Moncef Marzouki'),
+    ('présidentielles 2019', 'Abdelfattah Mourou'),
+    ('présidentielles 2019', 'Abir Moussi'),
+    ('présidentielles 2019', 'Mohamed Lotfi Mraihi'), ('présidentielles 2019', 'Mohamed Lotfi Mraïhi'),
+    ('présidentielles 2019', 'Mohamed Sghaier Nouri'), ('présidentielles 2019', 'Mohamed Nouri'),
+    ('présidentielles 2019', 'Mongi Rahoui'),
+    ('présidentielles 2019', 'Slim Riahi'),
+    ('présidentielles 2019', 'Safi Said'), ('présidentielles 2019', 'Safi Saïd'),
+    ('présidentielles 2019', 'Kais Saied'), ('présidentielles 2019', 'Kais Saïed'),
+    ('présidentielles 2019', 'Abdelkarim Zbidi')
+]
+
 key_words_list = [
     ('élection', 'circonscription'),
     ('élection', 'liste'),
     ('ISIE 2019', 'Nabil Baffoun'),
     ('présidence', 'Mohamed Ennaceur')
-    ] + spreadsheet_words + deputes
+    ] + spreadsheet_words + deputes + candidats_presidentielles_2019
