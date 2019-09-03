@@ -149,8 +149,5 @@ https://majles.marsad.tn/2014/fr/assemblee
 Huffpost Tunisie :  
 https://www.huffpostmaghreb.com/tunisie/
 
-Kapitalis :  
-http://kapitalis.com/tunisie/
-
 Businessnews.tn :  
 https://www.businessnews.com.tn/
